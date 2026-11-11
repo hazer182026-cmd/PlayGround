@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1014" />
+  <title>Emberwake — The Hollow Crown</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Emberwake home"><span class="brand-mark">✦</span><span>EMBER<span class="brand-dim">WAKE</span></span></a>
+      <div class="chapter"><span class="chapter-line"></span><span>THE HOLLOW CROWN</span><span class="chapter-line"></span></div>
+      <div class="top-actions"><span class="save-state"><i></i> WORLD SAVED</span><button class="icon-btn" id="soundBtn" title="Toggle sound" aria-label="Toggle sound">♫</button><button class="icon-btn" id="helpBtn" title="Controls">?</button></div>
+    </header>
+
+    <section class="game-layout">
+      <aside class="left-rail">
+        <section class="panel character-panel">
+          <div class="panel-heading"><span>YOUR WAYFARER</span><button class="text-btn" id="renameBtn">EDIT</button></div>
+          <div class="portrait-row"><div class="avatar"><span>✦</span><div class="avatar-glow"></div></div><div><h1 id="heroName">Ashen Wanderer</h1><p class="muted" id="heroTitle">Wayfarer · Level 1</p></div></div>
+          <div class="xp-row"><span>EXPERIENCE</span><span id="xpText">0 / 100</span></div><div class="xp-track"><i id="xpBar"></i></div>
+          <div class="vital"><div class="vital-label"><span><b class="heart">♥</b> VITALITY</span><span id="hpText">100 / 100</span></div><div class="bar hp"><i id="hpBar"></i></div></div>
+          <div class="vital"><div class="vital-label"><span><b class="mana">✧</b> FOCUS</span><span id="mpText">60 / 60</span></div><div class="bar mp"><i id="mpBar"></i></div></div>
+          <div class="vital"><div class="vital-label"><span><b class="stamina">⌁</b> STAMINA</span><span id="stText">100 / 100</span></div><div class="bar stamina-bar"><i id="stBar"></i></div></div>
+          <div class="stat-grid">
+            <div class="stat"><span>MIGHT</span><b id="mightStat">5</b></div><div class="stat"><span>FINESSE</span><b id="finesseStat">5</b></div><div class="stat"><span>WILL</span><b id="willStat">5</b></div><div class="stat"><span>WARD</span><b id="wardStat">5</b></div>
+          </div>
+          <button class="level-btn" id="levelBtn" hidden>＋ SPEND STAT POINT <span id="statPoints">0</span></button>
+          <div class="derived"><span>ATTACK <b id="attackVal">12</b></span><span>ARMOR <b id="armorVal">2</b></span><span>CRIT <b id="critVal">5%</b></span></div>
+        </section>
+
+        <section class="panel equipment-panel">
+          <div class="panel-heading"><span>LOADOUT</span><span class="tiny-label">CLICK TO CYCLE</span></div>
+          <div class="gear-slot" data-slot="main"><div class="gear-icon weapon-icon">⚔</div><div class="gear-copy"><small>MAIN HAND</small><b id="mainWeapon">Wayfarer's Blade</b><span id="mainType">Sword · Balanced</span></div><button class="cycle-btn" data-cycle="main" aria-label="Cycle main hand">↻</button></div>
+          <div class="gear-slot" data-slot="off"><div class="gear-icon off-icon">◈</div><div class="gear-copy"><small>OFF HAND</small><b id="offWeapon">Buckler</b><span id="offType">Shield · +4 armor</span></div><button class="cycle-btn" data-cycle="off" aria-label="Cycle off hand">↻</button></div>
+          <div class="gear-slot" data-slot="body"><div class="gear-icon armor-icon">⬡</div><div class="gear-copy"><small>ARMOR</small><b id="bodyArmor">Worn Leathers</b><span id="bodyType">Light · +2 armor</span></div><button class="cycle-btn" data-cycle="body" aria-label="Cycle armor">↻</button></div>
+        </section>
+      </aside>
+
+      <section class="center-column">
+        <section class="world-card">
+          <div class="world-top"><div><div class="eyebrow"><span class="live-dot"></span> THE VEILWOOD <span class="coord">· EASTERN REACH</span></div><h2 id="areaName">The Briarpath</h2></div><div class="world-meta"><span>☼ <b id="timeText">DUSK</b></span><span>◉ <b id="weatherText">ASHFALL</b></span></div></div>
+          <div class="canvas-wrap"><canvas id="gameCanvas" aria-label="Top-down game world"></canvas><div class="canvas-vignette"></div><div class="area-toast" id="areaToast">THE BRIARPATH</div><div class="battle-banner" id="battleBanner">HOSTILE NEARBY</div><div class="float-layer" id="floatLayer"></div>
+            <div class="minimap"><span class="map-label">VEILWOOD</span><div class="map-art"><i class="map-player"></i><i class="map-enemy"></i><i class="map-mark"></i></div><span class="map-compass">N <b>✦</b></span></div>
+            <div class="canvas-hint" id="canvasHint"><span>WASD</span> MOVE <span>SPACE</span> ATTACK <span>F</span> PARRY</div>
+          </div>
+          <div class="world-footer"><div class="location-note"><span class="pin">⌖</span><span id="locationText">A path through the old forest. Something stirs beneath the roots.</span></div><div class="world-buttons"><button class="small-button" id="restBtn">☾ REST</button><button class="small-button" id="mapBtn">⌖ MAP</button></div></div>
+        </section>
+
+        <section class="combat-dock">
+          <div class="dock-top"><div class="dock-title"><span class="pulse-icon">✧</span><span>QUICK ACTIONS</span></div><div class="weapon-status"><span id="weaponStatus">SWORD &amp; BUCKLER</span><span class="divider">/</span><span id="combatState">READY</span></div><div class="toast-inline" id="combatMessage">A quiet moment. Choose your path.</div></div>
+          <div class="action-row" id="actionRow"></div>
+          <div class="control-foot"><span><kbd>1</kbd>–<kbd>5</kbd> USE SKILL</span><span><kbd>F</kbd> PARRY</span><span><kbd>SPACE</kbd> ATTACK</span><span><kbd>SHIFT</kbd> DODGE</span></div>
+        </section>
+      </section>
+
+      <aside class="right-rail">
+        <section class="panel quest-panel"><div class="panel-heading"><span>JOURNAL</span><button class="text-btn" id="journalBtn">VIEW ALL</button></div><div class="quest-tag"><span class="tag-dot"></span> MAIN THREAD</div><h3 id="questTitle">The Ember in the Roots</h3><p id="questDesc">Find the source of the red glow beneath the Briarpath.</p><div class="quest-objective"><span class="objective-check" id="questCheck">○</span><span id="questObjective">Defeat the Hollow Stalker</span></div><div class="quest-progress"><i id="questProgress"></i></div><div class="quest-count" id="questCount">0 / 1</div><div class="journal-divider"></div><div class="side-quest"><span class="side-icon">◇</span><div><small>WHISPER IN THE WOOD</small><p>Gather 3 moonmoss from the glade.</p><div class="tiny-progress"><i id="mossProgress"></i></div></div><b id="mossCount">0/3</b></div></section>
+        <section class="panel skills-panel"><div class="panel-heading"><span>DISCIPLINES</span><button class="text-btn" id="skillsBtn">ALL SKILLS</button></div><div class="discipline"><div class="disc-icon blade-disc">⚔</div><div><b>Way of the Blade</b><span id="bladeRank">Rank I · 0 mastery</span></div><span class="disc-chevron">›</span></div><div class="discipline"><div class="disc-icon guard-disc">◈</div><div><b>Way of the Guard</b><span id="guardRank">Rank I · 0 mastery</span></div><span class="disc-chevron">›</span></div><div class="discipline"><div class="disc-icon wild-disc">❋</div><div><b>Wildcraft</b><span id="wildRank">Rank I · 0 mastery</span></div><span class="disc-chevron">›</span></div><div class="skill-tip"><span>✦</span><p>Parry is a skill. Time your guard at the instant an enemy strikes to deflect and counter.</p></div></section>
+        <section class="panel log-panel"><div class="panel-heading"><span>FIELD NOTES</span><span class="tiny-label" id="logTime">JUST NOW</span></div><div class="log-list" id="logList"></div></section>
+      </aside>
+    </section>
+    <footer class="bottom-bar"><span>✦ <b>EMBERWAKE</b> <span class="footer-dim">· A STORY WRITTEN IN ASH</span></span><span>OPEN WORLD <i>•</i> YOUR CHOICES SHAPE THE PATH</span><span id="saveText">AUTOSAVE ON</span></footer>
+  </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" role="dialog" aria-modal="true"><button class="modal-close" id="modalClose">×</button><div class="modal-content" id="modalContent"></div></section></div>
+  <div class="touch-controls" aria-label="Touch controls"><div class="dpad"><button data-move="up">▲</button><div><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button></div></div><div class="touch-actions"><button data-action="attack">⚔</button><button data-action="parry">◈</button><button data-action="dodge">↗</button></div></div>
+  <script src="game.js"></script>
+</body>
+</html>
